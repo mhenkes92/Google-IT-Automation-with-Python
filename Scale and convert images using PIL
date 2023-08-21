@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+from PIL import Image
+import os
+
+directory = "images/"
+output_directory = "/opt/icons"
+
+# Create the output directory if it doesn't exist
+os.makedirs(output_directory, exist_ok=True)
+
+for file in os.listdir(directory):
+    if file != ".DS_Store":
+        with Image.open(os.path.join(directory, file)) as im:
+            if im.mode != "RGB":
+                im = im.convert("RGB")
+            processed_image = im.rotate(90).resize((128, 128))
+            output_filename = os.path.splitext(file)[0] + ".jpg"
+            processed_image.save(os.path.join(output_directory, output_filename), "JPEG")
+    else:
+        continue
